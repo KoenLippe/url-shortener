@@ -2,16 +2,19 @@ import express from 'express';
 import { generate } from 'randomstring';
 import NodeCache from 'node-cache';
 import validator from 'validator';
+import cors from 'cors';
 
 import { Url } from './models/url';
 
 const app: express.Application = express();
 const cache = new NodeCache();
-const PORT = 3000;
+const PORT = 4000;
 const NUMBER_OF_RANDOM_CHARACTERS = 8;
 
 app.use(express.json());
+app.use(cors());
 
+// TODO: Check for longer url (koenlippe.nl/dev f.e.)
 app.get('/:id', (req, res) => {
   const { id } = req.params;
   const urlObject: Url | undefined = cache.get(id);
@@ -19,7 +22,7 @@ app.get('/:id', (req, res) => {
   if (!urlObject) {
     res.status(404).send(`Short link with ${id} does not exist`);
   } else {
-    res.redirect(200, urlObject.url);
+    res.redirect(301, urlObject.url);
   }
 });
 
