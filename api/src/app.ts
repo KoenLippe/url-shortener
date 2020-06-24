@@ -17,7 +17,7 @@ app.get('/:id', (req, res) => {
   const urlObject: Url | undefined = cache.get(id);
 
   if (!urlObject) {
-    res.status(404).send(`Short link with ${id}`);
+    res.status(404).send(`Short link with ${id} does not exist`);
   } else {
     res.redirect(200, urlObject.url);
   }
