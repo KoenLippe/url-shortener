@@ -8,10 +8,10 @@ import monk from 'monk';
 import { Url } from './models/url';
 import CustomError from './models/CustomError';
 
+dotenv.config();
 const app: express.Application = express();
 const PORT = process.env.PORT || 5002;
 const NUMBER_OF_RANDOM_CHARACTERS = 8;
-dotenv.config();
 
 const db = monk(process.env.MONGO_DB_URL || 'ERROR');
 const urls = db.get('url');
@@ -34,6 +34,18 @@ app.get('/:id', async (req, res) => {
   }
 });
 
+app.get('/api/url', async (req, res) => {
+  try {
+    await urls
+      .find({}, { limit: 5, sort: { created: -1 }, fields: { _id: 0 } })
+      .then((urls) => {
+        res.json(urls);
+      });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 app.post('/api/url', async (req, res) => {
   try {
     if (!validator.isURL(req.body.url, { require_protocol: true })) {
@@ -50,6 +62,7 @@ app.post('/api/url', async (req, res) => {
     const urlObject: Url = {
       url: req.body.url,
       short: req.body.short,
+      created: Date.now(),
     };
 
     if (!req.body.short) {
