@@ -1,0 +1,14 @@
+#app {
+  width: 80%;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+.form,
+.info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 40px;
+}
