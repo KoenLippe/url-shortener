@@ -42,7 +42,8 @@ app.get('/api/url', async (req, res) => {
         res.json(urls);
       });
   } catch (error) {
-    console.log(error);
+    res.status(500);
+    res.json({ message: 'Something went wrong while fetching recent urls' });
   }
 });
 

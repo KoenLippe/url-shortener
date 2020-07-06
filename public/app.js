@@ -89,6 +89,11 @@ const createUrlItem = (urlObject) => {
 const getAndPlaceList = () => {
   handleGet().then((data) => {
     listElement.innerHTML = '';
+
+    if (data.error) {
+      errorElement.textContent = data.error.message;
+      errorElement.style.display = 'initial';
+    }
     data.forEach((element) => {
       const li = createUrlItem(element);
       listElement.appendChild(li);
