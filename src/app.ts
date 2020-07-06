@@ -35,8 +35,8 @@ app.get('/:id', (req, res) => {
 app.post('/api/url', (req, res) => {
   //TODO: Check for short to not be a URL
   try {
-    if (!validator.isURL(req.body.url)) {
-      throw new Error('Please enter a valid url');
+    if (!validator.isURL(req.body.url, { require_protocol: true })) {
+      throw new Error('Please enter a valid url f.e. -> https://koenlippe.nl');
     }
 
     const urlObject: Url = {
