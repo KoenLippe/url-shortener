@@ -1,5 +1,4 @@
 import express from 'express';
-import cors from 'cors';
 import path from 'path';
 import validator from 'validator';
 import { generate } from 'randomstring';
@@ -10,7 +9,7 @@ import { Url } from './models/url';
 import CustomError from './models/CustomError';
 
 const app: express.Application = express();
-const PORT = 5002;
+const PORT = process.env.PORT || 5002;
 const NUMBER_OF_RANDOM_CHARACTERS = 8;
 dotenv.config();
 
@@ -18,7 +17,6 @@ const db = monk(process.env.MONGO_DB_URL || 'ERROR');
 const urls = db.get('url');
 
 app.use(express.json());
-app.use(cors());
 app.use(express.static('./public'));
 
 app.get('/', (_, res) => {
