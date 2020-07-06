@@ -20,7 +20,6 @@ app.get('/', (_, res) => {
   res.sendFile(path.join(__dirname, '../public', 'index.html'));
 });
 
-// TODO: Check for longer url (koenlippe.nl/dev f.e.)
 app.get('/:id', (req, res) => {
   const { id } = req.params;
   const urlObject: Url | undefined = cache.get(id);
@@ -33,10 +32,13 @@ app.get('/:id', (req, res) => {
 });
 
 app.post('/api/url', (req, res) => {
-  //TODO: Check for short to not be a URL
   try {
     if (!validator.isURL(req.body.url, { require_protocol: true })) {
       throw new Error('Please enter a valid url f.e. -> https://koenlippe.nl');
+    }
+
+    if (validator.isURL(req.body.short)) {
+      throw new Error('The short cannot be a URL');
     }
 
     const urlObject: Url = {
@@ -56,7 +58,6 @@ app.post('/api/url', (req, res) => {
 
     res.status(200).json(urlObject);
   } catch (error) {
-    console.log(error);
     res.status(500);
     res.json({ message: error.message });
   }
