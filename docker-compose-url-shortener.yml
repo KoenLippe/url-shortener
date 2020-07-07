@@ -1,0 +1,12 @@
+version: '2'
+
+services:
+  url_shortener:
+    image: koenlippe/url_shortener
+    container_name: url_shortener
+    env_file:
+      - /root/url_shortener/env.list
+    environment:
+      VIRTUAL_HOST: dev.koenlippe.nl
+      LETSENCRYPT_HOST: dev.koenlippe.nl
+      LETSENCRYPT_EMAIL: koen.lippe@quicknet.nl
